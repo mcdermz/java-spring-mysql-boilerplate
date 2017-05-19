@@ -1,4 +1,4 @@
-# Setting up a CRUD app with Java, Spring and MySQL
+# Setting up a CRUD app with Java/Gradle, Spring/JPA and MySQL
 ---
 ## Boilerplate:
 
@@ -119,30 +119,50 @@ public interface LessonRepository extends CrudRepository<Lesson, Long> {
 }
 ```
 
-## Create a Controller with GET and POST mapping
+## Create a Controller with CRUD mapping
 * Create a POJO named `<Resource-name>sController`
 
 ```
 @RestController
-@RequestMapping("/lessons")
-public class LessonsController {
+@RequestMapping("/guitars")
+public class GuitarController {
+    private final GuitarRepository repository;
 
-    private final LessonRepository repository;
-
-    public LessonsController(LessonRepository repository) {
+    public GuitarController(GuitarRepository repository) {
         this.repository = repository;
     }
 
-    @GetMapping("")
-    public Iterable<Lesson> all() {
+    @GetMapping("/")
+    public Iterable<Guitar> all() {
         return this.repository.findAll();
     }
 
     @PostMapping("")
-    public Lesson create(@RequestBody Lesson lesson) {
-        return this.repository.save(lesson);
+    public Guitar create(@RequestBody Guitar guitar) {
+        return this.repository.save(guitar);
     }
 
+    @GetMapping("/{id}")
+    public Guitar show(@PathVariable("id") long id) {
+        return this.repository.findOne(id);
+    }
+
+    @PutMapping("/{id}")
+    public Guitar put(@PathVariable("id") long id, @RequestBody Guitar guitar) {
+        Guitar dbGuitar = repository.findOne(id);
+        if (guitar.getBrand() != null) {
+            dbGuitar.setBrand(guitar.getBrand());
+        }
+        if (guitar.getModel() != null) {
+            dbGuitar.setModel(guitar.getModel());
+        }
+        return this.repository.save(dbGuitar);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") long id) {
+        this.repository.delete(id);
+    }
 }
 ```
 Run with `./gradlew bootRun`
