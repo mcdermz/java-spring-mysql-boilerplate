@@ -48,15 +48,16 @@ runtime('mysql:mysql-connector-java')
 **Setup the connection**
 * `$ mkdir src/main/resources`
 * `$ touch src/main/resources/application.properties`
+
   ```
   // from application.properties
 
   spring.datasource.url=jdbc:mysql://localhost/<DATABASE NAME>?serverTimezone=UTC
-spring.datasource.username=root
-spring.datasource.password=
-spring.datasource.driver-class-name=com.mysql.jdbc.Driver
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+  spring.datasource.username=root
+  spring.datasource.password=
+  spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+  spring.jpa.hibernate.ddl-auto=update
+  spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
   ```
 
 ## Create an Entity and Respository:
